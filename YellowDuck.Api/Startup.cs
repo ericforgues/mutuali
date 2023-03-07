@@ -243,6 +243,7 @@ namespace YellowDuck.Api
             CloseCompletedContract.RegisterJob(Configuration);
             SendPayoutsForContractsStarted.RegisterJob(Configuration);
             SendKPIsEmail.RegisterJob(Configuration);
+            SendAlert.RegisterJob(Configuration);
         }
 
         private void ConfigureDbContext(DbContextOptionsBuilder options)

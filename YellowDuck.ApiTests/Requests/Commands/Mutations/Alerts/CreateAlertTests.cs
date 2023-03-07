@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading;
@@ -10,9 +11,11 @@ using YellowDuck.Api.Constants;
 using YellowDuck.Api.DbModel.Entities;
 using YellowDuck.Api.DbModel.Entities.Alerts;
 using YellowDuck.Api.DbModel.Enums;
+using YellowDuck.Api.EmailTemplates.Models;
 using YellowDuck.Api.Extensions;
 using YellowDuck.Api.Gql.Schema.Types;
 using YellowDuck.Api.Requests.Commands.Mutations.Alerts;
+using YellowDuck.Api.Services.Mailer;
 
 namespace YellowDuck.ApiTests.Requests.Commands.Mutations.Alerts
 {
@@ -20,12 +23,14 @@ namespace YellowDuck.ApiTests.Requests.Commands.Mutations.Alerts
     {
         private readonly CreateAlert handler;
         private readonly AppUser user;
+        private readonly Mock<IMailer> mailer;
 
         public CreateAlertTests()
         {
-            handler = new CreateAlert(DbContext, UserManager, NullLogger<CreateAlert>.Instance, UserAccessor);
+            mailer = new Mock<IMailer>();
+            handler = new CreateAlert(DbContext, UserManager, NullLogger<CreateAlert>.Instance, UserAccessor, mailer.Object);
             user = AddUser("test@example.com", UserType.User);
-        }
+    }
 
         [Fact]
         public async Task ShouldAddTheAlertToDb()
@@ -72,9 +77,10 @@ namespace YellowDuck.ApiTests.Requests.Commands.Mutations.Alerts
         [Fact]
         public async Task ShouldAddTheAnonymeAlertToDb()
         {
+            var email = "test@example.com";
             var input = new CreateAlert.Input
             {
-                Email = "test@example.com",
+                Email = email,
                 Category = AdCategory.ProfessionalKitchen,
                 DayAvailability = true,
                 Address = new CreateAlert.AddressInput()
@@ -95,6 +101,8 @@ namespace YellowDuck.ApiTests.Requests.Commands.Mutations.Alerts
             // Creating a new Db Context to verify that SaveChanges was called
             using var db = CreateDbContext();
             var alert = await db.Alerts.FirstAsync();
+
+            mailer.Verify(x => x.Send(It.Is<ConfirmAlertEmail>(x => x.To.Contains(email))));
 
             alert.Category.Should().Be(AdCategory.ProfessionalKitchen);
             alert.Email.Should().Be("test@example.com");

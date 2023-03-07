@@ -32,7 +32,7 @@ namespace YellowDuck.ApiTests.Requests.Commands.Mutations.Accounts
         public CreateUserAccountTest()
         {
             mailer = new Mock<IMailer>();
-            handler = new CreateUserAccount(UserManager, mailer.Object, NullLogger<CreateUserAccount>.Instance, HttpContextAccessor);
+            handler = new CreateUserAccount(UserManager, DbContext, mailer.Object, NullLogger<CreateUserAccount>.Instance, HttpContextAccessor);
         }
 
         [Fact]

@@ -1,5 +1,5 @@
 import Apollo from "@/graphql/vue-apollo";
-import { CreateAlert, UpdateAlert, DeleteAlert } from "./alert.graphql";
+import { CreateAlert, UpdateAlert, DeleteAlert, ConfirmAlert } from "./alert.graphql";
 import { addMaybeValue } from "@/helpers/graphql";
 
 import { getAddressFromGooglePlace } from "@/services/google-map";
@@ -63,13 +63,30 @@ export async function updateAlert(input) {
 }
 
 
-export async function deleteAlert(alertId) {
+export async function deleteAlert(alertId, email) {
   let mutationInput = {
-    alertId
+    alertId,
+    email
   };
 
   let result = await Apollo.instance.defaultClient.mutate({
     mutation: DeleteAlert,
+    variables: {
+      input: mutationInput
+    }
+  });
+
+  return result;
+}
+
+export async function confirmAlert(alertId, email) {
+  let mutationInput = {
+    alertId,
+    email
+  };
+
+  let result = await Apollo.instance.defaultClient.mutate({
+    mutation: ConfirmAlert,
     variables: {
       input: mutationInput
     }

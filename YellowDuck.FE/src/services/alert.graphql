@@ -19,3 +19,11 @@ mutation DeleteAlert($input: DeleteAlertInput!) {
     success
   }
 }
+
+mutation ConfirmAlert($input: ConfirmAlertInput!) {
+  confirmAlert(input: $input) {
+    alert {
+      id
+    }
+  }
+}

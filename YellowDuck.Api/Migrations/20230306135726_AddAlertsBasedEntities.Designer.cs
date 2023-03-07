@@ -10,7 +10,7 @@ using YellowDuck.Api.DbModel;
 namespace YellowDuck.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230224202701_AddAlertsBasedEntities")]
+    [Migration("20230306135726_AddAlertsBasedEntities")]
     partial class AddAlertsBasedEntities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -421,7 +421,7 @@ namespace YellowDuck.Api.Migrations
                     b.Property<bool>("DayAvailability")
                         .HasColumnType("bit");
 
-                    b.Property<int>("DeliveryTruckType")
+                    b.Property<int?>("DeliveryTruckType")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -433,7 +433,7 @@ namespace YellowDuck.Api.Migrations
                     b.Property<bool>("EveningAvailability")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("LastSendDate")
+                    b.Property<DateTime?>("LastSendDateUTC")
                         .HasColumnType("datetime2");
 
                     b.Property<double?>("Radius")

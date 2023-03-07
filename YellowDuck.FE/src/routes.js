@@ -233,11 +233,27 @@ export default [
     }
   },
   {
+    name: urls.URL_AD_ALERT_CONFIRM,
+    path: "/alertes/confirmer/:id",
+    component: () => import("@/components/pages/alert/confirm.vue"),
+    meta: {
+      anonymous
+    }
+  },
+  {
     name: urls.URL_AD_ALERT_EDIT,
     path: "/alertes/modifier/:id",
     component: () => import("@/components/pages/alert/edit.vue"),
     meta: {
       usertype: USER_TYPE_USER
+    }
+  },
+  {
+    name: urls.URL_AD_ALERT_DELETE,
+    path: "/alertes/supprimer/:id",
+    component: () => import("@/components/pages/alert/delete.vue"),
+    meta: {
+      anonymous
     }
   },
 

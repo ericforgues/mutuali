@@ -560,5 +560,7 @@
   "label.send-to": "And who do we send this to?",
   "label.your-email": "Your email",
   "form-complete.create-alert.title": "Alert created",
-  "form-complete.create-alert.description": "Your alert has now been set. From now on, you will receive new offers that meet your criteria once a week."
+  "form-complete.create-alert.description": "Your alert has now been set. From now on, you will receive new offers that meet your criteria once a week.",
+  "notification.alert-deleted": "The alert has been deleted.",
+  "notification.alert-confirmed": "The alert has been confirmed. From now on, you will receive new offers that meet your criteria once a week."
 }

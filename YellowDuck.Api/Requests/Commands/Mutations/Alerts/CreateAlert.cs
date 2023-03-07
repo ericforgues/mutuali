@@ -12,12 +12,13 @@ using YellowDuck.Api.DbModel.Entities;
 using YellowDuck.Api.DbModel.Entities.Ads;
 using YellowDuck.Api.DbModel.Entities.Alerts;
 using YellowDuck.Api.DbModel.Enums;
+using YellowDuck.Api.EmailTemplates.Models;
 using YellowDuck.Api.Extensions;
 using YellowDuck.Api.Gql.Schema.GraphTypes;
 using YellowDuck.Api.Gql.Schema.Types;
 using YellowDuck.Api.Plugins.GraphQL;
 using YellowDuck.Api.Plugins.MediatR;
-using YellowDuck.Api.Services.Files;
+using YellowDuck.Api.Services.Mailer;
 using YellowDuck.Api.Services.System;
 
 namespace YellowDuck.Api.Requests.Commands.Mutations.Alerts
@@ -28,14 +29,15 @@ namespace YellowDuck.Api.Requests.Commands.Mutations.Alerts
         private readonly ILogger<CreateAlert> logger;
         private readonly UserManager<AppUser> userManager;
         private readonly ICurrentUserAccessor currentUserAccessor;
-        private readonly AppUser ownser;
+        private readonly IMailer mailer;
 
-        public CreateAlert(AppDbContext db, UserManager<AppUser> userManager, ILogger<CreateAlert> logger, ICurrentUserAccessor currentUserAccessor)
+        public CreateAlert(AppDbContext db, UserManager<AppUser> userManager, ILogger<CreateAlert> logger, ICurrentUserAccessor currentUserAccessor, IMailer mailer)
         {
             this.db = db;
             this.logger = logger;
             this.userManager = userManager;
             this.currentUserAccessor = currentUserAccessor;
+            this.mailer = mailer;
         }
 
         public async Task<Payload> Handle(Input request, CancellationToken cancellationToken)
@@ -84,6 +86,10 @@ namespace YellowDuck.Api.Requests.Commands.Mutations.Alerts
             if (owner != null)
             {
                 await userManager.AddClaimAsync(owner, new Claim(AppClaimTypes.AlertOwner, Id.New<Alert>(alert.Id.ToString()).ToString()));
+            }
+            else
+            {
+                await mailer.Send(new ConfirmAlertEmail(alert.Email, alert));
             }
 
             logger.LogInformation($"New alert created {request.Category} ({alert.Id})");

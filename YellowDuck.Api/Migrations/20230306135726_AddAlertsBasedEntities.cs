@@ -36,7 +36,7 @@ namespace YellowDuck.Api.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Category = table.Column<int>(type: "int", nullable: false),
-                    DeliveryTruckType = table.Column<int>(type: "int", nullable: false),
+                    DeliveryTruckType = table.Column<int>(type: "int", nullable: true),
                     Refrigerated = table.Column<bool>(type: "bit", nullable: false),
                     CanSharedRoad = table.Column<bool>(type: "bit", nullable: false),
                     CanHaveDriver = table.Column<bool>(type: "bit", nullable: false),
@@ -46,7 +46,7 @@ namespace YellowDuck.Api.Migrations
                     AddressId = table.Column<long>(type: "bigint", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
-                    LastSendDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    LastSendDateUTC = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {

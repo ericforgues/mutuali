@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using YellowDuck.Api.DbModel;
@@ -12,26 +13,23 @@ using YellowDuck.Api.Plugins.GraphQL;
 using YellowDuck.Api.Plugins.MediatR;
 using YellowDuck.Api.Services.System;
 
-namespace YellowDuck.Api.Requests.Commands.Mutations.Notifications
+namespace YellowDuck.Api.Requests.Commands.Mutations.Alerts
 {
     public class DeleteAlert : IRequestHandler<DeleteAlert.Input, DeleteAlert.Payload>
     {
         private readonly AppDbContext db;
-        private readonly ILogger<DeleteAlert> logger;
-        private readonly ICurrentUserAccessor currentUserAccessor;
 
-        public DeleteAlert(AppDbContext db, ILogger<DeleteAlert> logger, ICurrentUserAccessor currentUserAccessor)
+        public DeleteAlert(AppDbContext db)
         {
             this.db = db;
-            this.logger = logger;
-            this.currentUserAccessor = currentUserAccessor;
         }
 
         public async Task<Payload> Handle(Input request, CancellationToken cancellationToken)
         {
+            if (request.Email == null) throw new EmailNotSetException();
             var alertId = request.AlertId.LongIdentifierForType<Alert>();
 
-            var alert = await db.Alerts.FirstOrDefaultAsync(x => x.Id == alertId, cancellationToken);
+            var alert = await db.Alerts.Include(x => x.User).Where(x => x.Id == alertId).Where(x => (x.User != null && x.User.Email == request.Email) || x.Email == request.Email).FirstOrDefaultAsync(cancellationToken);
 
             if (alert == null) throw new AlertNotFoundException();
 
@@ -48,6 +46,7 @@ namespace YellowDuck.Api.Requests.Commands.Mutations.Notifications
         public class Input : IHaveAlertId, IRequest<Payload>
         {
             public Id AlertId { get; set; }
+            public string Email { get; set; }
         }
 
         [MutationPayload]
@@ -57,7 +56,7 @@ namespace YellowDuck.Api.Requests.Commands.Mutations.Notifications
         }
 
         public abstract class DeleteAlertException : RequestValidationException { }
-
+        public class EmailNotSetException : DeleteAlertException { }
         public class AlertNotFoundException : DeleteAlertException { }
     }
 }

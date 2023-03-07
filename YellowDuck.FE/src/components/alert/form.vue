@@ -126,7 +126,7 @@
               :label="$t('label.your-email')"
               :placeholder="$t('placeholder.email')"
               name="email"
-              rules="email"
+              rules="required|email"
               required
             />
           </fieldset>

@@ -5,7 +5,7 @@
     :class="{ 'ui-snippet--link': snippetIsLink }"
     :to="mainRoute"
   >
-    <div class="ui-snippet__img-container">
+    <div v-if="imageSrc" class="ui-snippet__img-container">
       <img class="ui-snippet__img" :src="`${imageSrc}?mode=crop&width=200&height=200`" :alt="imageAlt ? imageAlt : ''" />
     </div>
 
@@ -54,7 +54,7 @@ export default {
     },
     imageSrc: {
       type: String,
-      required: true
+      default: ""
     },
     imageAlt: {
       type: String,

@@ -419,7 +419,7 @@ namespace YellowDuck.Api.Migrations
                     b.Property<bool>("DayAvailability")
                         .HasColumnType("bit");
 
-                    b.Property<int>("DeliveryTruckType")
+                    b.Property<int?>("DeliveryTruckType")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -431,7 +431,7 @@ namespace YellowDuck.Api.Migrations
                     b.Property<bool>("EveningAvailability")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("LastSendDate")
+                    b.Property<DateTime?>("LastSendDateUTC")
                         .HasColumnType("datetime2");
 
                     b.Property<double?>("Radius")

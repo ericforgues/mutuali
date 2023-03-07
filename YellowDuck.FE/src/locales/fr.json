@@ -570,6 +570,7 @@
   "nav.create-alert": "Créer une alerte",
   "profile-detail.no-alerts": "Vous n'avez aucune alerte.",
   "form-complete.edit-alert.title": "Alerte modifiée",
-  "form-complete.edit-alert.description": "Votre alerte a bien été modifiée. Vous receverez donc à partir de maintenant les nouvelles offres qui répondent à vos critères une fois par semaine.",
-  "notification.alert-deleted": "L'alerte à bien été supprimée."
+  "form-complete.edit-alert.description": "Votre alerte a bien été modifié. Vous receverez donc à partir de maintenant les nouvelles offres qui répondent à vos critères une fois par semaine.",
+  "notification.alert-deleted": "L'alerte à bien été supprimée.",
+  "notification.alert-confirmed": "L'alerte à bien été confirmée. Vous receverez donc à partir de maintenant les nouvelles offres qui répondent à vos critères une fois par semaine."
 }

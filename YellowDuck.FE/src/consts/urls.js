@@ -14,6 +14,7 @@ export const URL_AD_DETAIL = "detail-ad-url";
 export const URL_AD_ALERT_LIST = "list-alert-ad-url";
 export const URL_AD_ALERT_ADD = "add-alert-ad-url";
 export const URL_AD_ALERT_EDIT = "edit-alert-ad-url";
+export const URL_AD_ALERT_DELETE = "delete-alert-ad-url";
 export const URL_CREATE_CONVERSATION = "create-conversation-url";
 export const URL_RESEND_CONFIRMATION_EMAIL = "resend-confirmation-email-url";
 export const URL_AD_EDIT = "edit-ad-url";

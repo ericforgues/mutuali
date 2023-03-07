@@ -11,7 +11,7 @@ namespace YellowDuck.Api.DbModel.Entities.Alerts
         public AppUser User { get; set; }
         public AdCategory Category { get; set; }
         public IList<AlertProfessionalKitchenEquipment> ProfessionalKitchenEquipments { get; set; }
-        public DeliveryTruckType DeliveryTruckType { get; set; }
+        public DeliveryTruckType? DeliveryTruckType { get; set; }
         public bool Refrigerated { get; set; }
         public bool CanSharedRoad { get; set; }
         public bool CanHaveDriver { get; set; }
@@ -22,6 +22,6 @@ namespace YellowDuck.Api.DbModel.Entities.Alerts
         public AlertAddress Address { get; set; }
         public string Email { get; set; }
         public bool EmailConfirmed { get; set; }
-        public DateTime LastSendDate { get; set; }
+        public DateTime? LastSendDateUTC { get; set; }
     }
 }

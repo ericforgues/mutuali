@@ -25,7 +25,7 @@ import NavClose from "@/components/nav/close";
 import FormComplete from "@/components/generic/form-complete";
 import AlertForm from "@/components/alert/form";
 
-import { URL_ROOT, URL_AD_ALERT_LIST } from "@/consts/urls";
+import { URL_LIST_AD, URL_AD_ALERT_LIST } from "@/consts/urls";
 
 import { createAlert } from "@/services/alert";
 
@@ -44,20 +44,19 @@ export default {
     }
   },
   data() {
+    var ctas = [];
+    if (this.isConnected) {
+      ctas = [
+        { action: () => this.$router.push({ name: URL_AD_ALERT_LIST }), text: this.$t("btn.manage-my-alerts") },
+        { action: () => this.$router.push({ name: URL_LIST_AD }), text: this.$t("btn.return-map") }
+      ];
+    } else {
+      ctas = [{ action: () => this.$router.push({ name: URL_LIST_AD }), text: this.$t("btn.return-map") }];
+    }
     return {
       alertCreated: false,
       isSubmitted: false,
-      formCompleteCtas: [
-        { action: () => this.$router.push({ name: URL_AD_ALERT_LIST }), text: this.$t("btn.manage-my-alerts") },
-        { action: () => this.$router.push({ name: URL_ROOT }), text: this.$t("btn.return-dashboard") }
-      ]
-    };
-  },
-  gqlErrors() {
-    return {
-      IMAGE_NOT_FOUND(error) {
-        return this.$t("error.image-upload");
-      }
+      formCompleteCtas: ctas
     };
   },
   methods: {

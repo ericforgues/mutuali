@@ -1,0 +1,35 @@
+﻿@using YellowDuck.Api.Helpers
+@using YellowDuck.Api.Constants
+@model YellowDuck.Api.EmailTemplates.Models.AlertEmail
+@{
+    Layout = "_EmailLayout.cshtml";
+}
+
+@if (Model.AdsCount > 1)
+{
+    <p>
+        @Model.AdsCount offres @Model.Category qui pourraient vous intéresser viennent d'être publiées.
+    </p>
+    <p>
+        <a href="@Model.BaseUrl/@Model.CtaUrl">Aller voir les offres</a>
+    </p>
+}
+else
+{
+    <p>
+        Une offre @Model.Category qui pourrait vous intéresser vient d'être publiée.
+    </p>
+    <p>
+        <a href="@Model.BaseUrl/@Model.CtaUrl">Aller voir l'offre</a>
+    </p>
+}
+
+
+   <p>
+     <a href="@Model.BaseUrl/@Model.UnsubscribeUrl">Se désabonner de cette alerte</a>
+    @if(Model.ManageAlertUrl != null)
+    {
+        <text>•</text> <a href="@Model.BaseUrl/@Model.ManageAlertUrl">Gérer ses alertes</a>
+    }
+</p> 
+

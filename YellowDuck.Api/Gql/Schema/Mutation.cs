@@ -151,6 +151,14 @@ namespace YellowDuck.Api.Gql.Schema
             return mediator.Send(input.Value);
         }
 
+        [AnnotateErrorCodes(typeof(ConfirmAlert))]
+        public Task<ConfirmAlert.Payload> ConfirmAlert(
+            [Inject] IMediator mediator,
+            NonNull<ConfirmAlert.Input> input)
+        {
+            return mediator.Send(input.Value);
+        }
+
         [ApplyPolicy(AuthorizationPolicies.ManageAlert)]
         [AnnotateErrorCodes(typeof(UpdateAlert))]
         public Task<UpdateAlert.Payload> UpdateAlert(
@@ -160,7 +168,6 @@ namespace YellowDuck.Api.Gql.Schema
             return mediator.Send(input.Value);
         }
 
-        [ApplyPolicy(AuthorizationPolicies.ManageAlert)]
         [AnnotateErrorCodes(typeof(DeleteAlert))]
         public Task<DeleteAlert.Payload> DeleteAlert(
             [Inject] IMediator mediator,
